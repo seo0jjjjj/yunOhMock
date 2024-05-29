@@ -14,6 +14,7 @@ export default function ChatBox() {
 
   const handlePost = () =>{
     const message = inputRef.current.value;
+
     console.log("chatCreated : " + message);
     postMessage(message);
  
@@ -23,7 +24,8 @@ export default function ChatBox() {
   const postMessage = (message) =>{
     socket.emit("message",{
       message,
-      username : "unknown"
+      username : "unknown",
+      time : new Date().getTime
     })
   }
 
@@ -34,6 +36,9 @@ export default function ChatBox() {
       socket.connect();
       console.log("socket connected");
     }
+
+    // join chat and
+
 
     // load Chats
     if(!messages){
@@ -80,7 +85,7 @@ export default function ChatBox() {
        {/* {<Chat/>} */}
        </div>
        <div className='chat-input'>
-        <input ref={inputRef}/>
+        <input ref={inputRef} onKeyDown={e => e.code === "Enter" ? handlePost() : "" }/>
         <button onClick = {handlePost}
         children={
           <box-icon name='subdirectory-left'/>}/>

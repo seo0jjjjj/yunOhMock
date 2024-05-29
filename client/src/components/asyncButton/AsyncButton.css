@@ -1,0 +1,40 @@
+.async-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 400px;
+  height: 40px;
+  padding: 10px 20px;
+  font-size: 1.6em;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.async-button.loading {
+  pointer-events: none;
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3.5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 

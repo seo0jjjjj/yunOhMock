@@ -1,0 +1,38 @@
+.login-form > h1 {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+
+.login-form-container{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login-btn {
+    font-weight: 500;
+}
+
+.google-auth {
+    margin-top: 40px;
+    width: 400px;
+    height: 40px;
+    font-size: 1.6em;
+    border : 1px solid #dbdbdb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    border-radius: 12px;
+    background-color: white;
+    cursor: pointer
+}
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}

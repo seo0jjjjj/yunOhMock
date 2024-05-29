@@ -2,6 +2,9 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs"
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import axios from "axios";
+import { get } from "mongoose";
+import { validateGoogleToken } from "../utils/googleService.js";
 
 
 export const register = async (req, res, next) => {
@@ -65,4 +68,26 @@ export const logout = async (req,res) => {
         sameSite : 'strict',
     */
   }).status(200).json({message: "Logged out successfully"});
+};
+
+export const loginViaGoogle = async (req, res, next) => {
+  console.log("loginViaGoogle called " + req.body.code);
+  const {code} = req.body ;
+  if(!code) {
+    next(createError(400, "구글 로그인 인증을 위한 코드가 없습니다."));
+    return;
+  }
+  
+  try{
+    const accessToken = await validateGoogleToken(code);
+    const getGoogleUserinfo = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`);
+
+
+    res.status(200).json(getGoogleUserinfo.data);
+
+  }catch(err){
+    console.log(err?.response?.data);
+    next(err);
+  }
+
 };

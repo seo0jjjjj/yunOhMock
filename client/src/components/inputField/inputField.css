@@ -1,0 +1,43 @@
+/* inputField.css */
+
+.input-field{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field > .input-box {
+  position: relative;
+  width: 400px;
+  height: 40px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+
+.input-field > label {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.input-box > input {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+  transition: all 0.3s;
+}
+
+.input-box > .eyecon {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  transition: .1s;
+
+} 
+
+

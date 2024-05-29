@@ -34,19 +34,30 @@ const io = new SocketIOServer(server, {
   }
 });
 
-// Socket.IO 통신
+const clients = []; // 소켓 클라이언트 담는용
+ 
+// 클라이언트 접속
 io.on('connection', (socket) => {
-  console.log('A user connected');
-  socket.on('message', (message) => {
-    console.log(`Received message => ${message}`);
-    socket.send('Hello! Message From Server!! '+ message);
-  });
+  console.log(`A user connected => ${socket.id}`);
+  clients.push(socket);
+
+
+  io.emit('message', 'Hello from server!')
   
   socket.on('request_reload', (message) => {
     console.log(`reload request => ${message}`);
     socket.emit('reload','true');
   });
 
+  socket.on('message', (message) => {
+    console.log(`message => ${JSON.stringify(message,null,2)}`);
+  });
+
+  socket.on('disconnect', () => {
+    const index = clients.indexOf(socket);
+    console.log(`A user disconnected ${clients[index].id}`);
+    clients.splice(index, 1);
+  });
 });
 
 server.listen(8080, () => {
