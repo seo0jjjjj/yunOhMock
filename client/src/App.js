@@ -6,19 +6,21 @@ import Message from "./message/Message";
 import ChatBox from "./components/chatBox/ChatBox";
 import Login from "./pages/Login";
 import GoogleAuth from "./pages/GoogleAuth";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <BrowserRouter>
-    <Nav/>
+      <Nav />
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/board" element= {<GameBoard/>} />
-        <Route path="/message" element= {<Message/>} />
-        <Route path="/login" element= {<Login/>} />
-        <Route path="/auth/google" element= {<GoogleAuth/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/board" element={<GameBoard />} />
+        <Route path="/message" element={<Message />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/auth/google" element={<GoogleAuth />} />
       </Routes>
-      <ChatBox/>
+      <ChatBox />
     </BrowserRouter>
   );
 }

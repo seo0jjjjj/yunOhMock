@@ -5,7 +5,7 @@
   font-style: normal;
 }
 
-*{
+* {
   font-family: "Noto Sans KR", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -14,7 +14,14 @@
 
 
 :root {
-  --default-padding : 30px;
+  --default-padding: 30px;
+  --modern-grey: #6a737b;
+  --modern-light-grey: #D4D4CE;
+  --modern-white: #F6F6F6;
+  --modern-blue: #287094;
+  --modern-dark-blue: #023246;
+  --slack-gray: rgb(227, 228, 229);
+  --slack-dark-gray: rgb(37, 48, 57);
 }
 
 * {
@@ -33,16 +40,21 @@ html {
 }
 
 body {
-  padding : var(--default-padding);
-  height: calc(100% - 2 * var(--default-padding));
-  width: calc(100% - 2 * var(--default-padding));
+  background-color: var(--slack-gray);
+  width: 100%;
+  height: 100%;
   border: 1px solid red;
 }
 
-input, button {
+input,
+button {
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
+}
+
+.no-caret {
+  caret-color: transparent;
 }

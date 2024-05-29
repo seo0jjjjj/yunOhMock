@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './AsyncButton.css';
 
-const AsyncButton = ({children}) => {
+const AsyncButton = ({ children, styleObj, className }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
@@ -12,12 +12,13 @@ const AsyncButton = ({children}) => {
   };
 
   return (
-   <button 
-    className={`async-button ${isLoading ? 'loading' : ''}`} 
-    onClick={handleClick}
+    <button
+      className={`async-button ${isLoading ? 'loading' : ''} ${className}`}
+      style={styleObj}
+      onClick={handleClick}
     >
-    {isLoading ? <div className="loader"></div> : children}
-  </button>
+      {isLoading ? <div className="loader"></div> : children}
+    </button>
   );
 };
 

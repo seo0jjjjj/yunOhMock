@@ -1,12 +1,19 @@
-.login-form > h1 {
+.login-form>h1 {
+    width: 400px;
     text-align: center;
     margin-bottom: 50px;
 }
 
 
-.login-form-container{
-    margin: auto;
-    display: flex;
+.login-form-container {
+    width: 400px;
+    margin-inline: auto;
+    margin-top: 100px;
+    border-radius: 8px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    background-color: var(--modern-white);
+    box-sizing: content-box;
+    padding: 30px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -21,7 +28,7 @@
     width: 400px;
     height: 40px;
     font-size: 1.6em;
-    border : 1px solid #dbdbdb;
+    border: 1px solid #dbdbdb;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,4 +42,11 @@
     width: 20px;
     height: 20px;
     margin-right: 10px;
+}
+
+.error-span {
+    color: tomato;
+    font-weight: 600;
+    display: block;
+    margin-top: 3px;
 }
