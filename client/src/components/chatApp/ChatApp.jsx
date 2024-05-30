@@ -1,12 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
-import "./chatBox.css"
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import "./chatApp.css"
 import "boxicons"
 import { socket } from '../../util/socketHandler';
 import AsyncButton from '../asyncButton/AsyncButton';
+import MessageSpan from '../messageSpan/MessageSpan';
+import { UserInfoContext } from '../../context/UserInfoContext';
 
-export default function ChatBox() {
-  const [isChatBoxOpen, setChatBoxOpen] = useState(false);
+export default function ChatApp() {
+  const {userInfo, isLoggedIn} = useContext(UserInfoContext);
+  const [isChatAppOpen, setChatAppOpen] = useState(false);
   const [messages, setMessages] = useState();
+  const inputRef = useRef();
 
   const ballonRef = useRef();
 
@@ -29,15 +33,14 @@ export default function ChatBox() {
 
 
 
-    setChatBoxOpen(!isChatBoxOpen);
+    setChatAppOpen(!isChatAppOpen);
   }
 
-  const inputRef = useRef();
 
+  // 채팅 전송
   const handlePost = () => {
     const message = inputRef.current.value;
 
-    console.log("chatCreated : " + message);
     postMessage(message);
 
     inputRef.current.value = "";
@@ -46,7 +49,7 @@ export default function ChatBox() {
   const postMessage = (message) => {
     socket.emit("message", {
       message,
-      username: "unknown",
+      username: userInfo?.nickname || "unknown",
       time: new Date().getTime
     })
   }
@@ -64,6 +67,7 @@ export default function ChatBox() {
 
     // load Chats
     if (!messages) {
+      console.log("request chats");
       socket.emit("request-chat-all-messages");
     }
 
@@ -96,53 +100,36 @@ export default function ChatBox() {
       <div className='floating-btn-container'>
         <div className='ballon' ref={ballonRef}>채팅에 참여하려면 여기를 클릭하세요.</div>
         <div className='chat-floating-btn' onClick={handleFloatingBtnClicked} draggable={'false'}>
-          {isChatBoxOpen ?
+          {isChatAppOpen ?
             (<box-icon name='comment-x' type='solid'></box-icon>)
             : (<box-icon name='message-dots' type='solid'></box-icon>)}
         </div>
 
       </div>
-      {isChatBoxOpen && (
+      {isChatAppOpen && (
         <div className='chat-app'>
           <div className='chat-content'>
             <span className='joined-message'></span>
 
-            <div className='message'>
-              <img alt='profileImg' src='profile_sample_01.png'></img>
-              <div className='message-content'>
-                <span className='message-sender'>서윤오</span>
-                <span className='message-detail'>자바스크립트로 div 이동을 구현하려면 마우스 누른 상태에서 이동위치를 판단해서 div의 x,y 좌표를 바꿔주고... 코드가 많이 지저분해지는데 jQuery UI를 활용하면 한줄로 처리가 된다.</span>
-              </div>
-              <span className='message-time'>10분전</span>
-            </div>
+            {
+              <MessageSpan
+              imgSrc = 'profile_sample_01.png'
+              message='자바스크립트로 div 이동을 구현하려면 마우스 누른 상태에서 이동위치를 판단해서 div의 x,y 좌표를 바꿔주고... 코드가 많이 지저분해지는데 jQuery UI를 활용하면 한줄로 처리가 된다.'
+              time={new Date().getTime()}
+              sender='서윤오'
+            />
+            }
 
-            <div className='message'>
-              <img alt='profileImg' src='profile_sample_01.png'></img>
-              <div className='message-content'>
-                <span className='message-sender'>서윤오</span>
-                <span className='message-detail'>자바스크립트로 div 이동을 구현하려면 마우스 누른 상태에서 이동위치를 판단해서 div의 x,y 좌표를 바꿔주고... 코드가 많이 지저분해지는데 jQuery UI를 활용하면 한줄로 처리가 된다.</span>
-              </div>
-              <span className='message-time'>10분전</span>
-            </div>
-
-            <div className='message reverse'>
-              <img alt='profileImg' src='profile_sample_01.png'></img>
-              <div className='message-content'>
-                <span className='message-sender'>나</span>
-                <span className='message-detail'>자바스크립트로 div 이동을 구현하려면 마우스 누른 상태에서 이동위치를 판단해서 div의 x,y 좌표를 바꿔주고... 코드가 많이 지저분해지는데 jQuery UI를 활용하면 한줄로 처리가 된다.</span>
-              </div>
-              <span className='message-time'>10분전</span>
-            </div>
-
-
-
-            <span className='message'></span>
           </div>
           <div className='chat-input'>
-            <input placeholder='채팅을 입력하세요.' />
+            <input 
+              placeholder='채팅을 입력하세요.'
+              onKeyDown={e=>e.key === 'Enter' && handlePost()}
+              ref={inputRef}
+              />
             <div className='message-button'>
               <AsyncButton styleObj={{ borderRadius: "50%", padding: "10px", marginTop: "10px" }}>
-                <i class='bx bx-send'></i>
+                <i className='bx bx-send'></i>
               </AsyncButton>
             </div>
           </div>

@@ -3,12 +3,10 @@ import bcrypt from "bcryptjs"
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import axios from "axios";
-import { get } from "mongoose";
 import { validateGoogleToken } from "../utils/googleService.js";
 
 
 export const register = async (req, res, next) => {
-
   const { password, ...rest } = req.body;
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -18,7 +16,7 @@ export const register = async (req, res, next) => {
       password: hash,
     });
     await newUser.save();
-    res.status(200).send("User has been created.");
+    res.status(200).json({ message: "회원가입에 성공하였습니다. "});
   } catch (err) {
     next(err);
   }
@@ -28,13 +26,13 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    if (!user) return next(createError(404, "User not found!"));
+    if (!user) return next(createError(404, "존재하지 않는 사용자입니다. 회원가입을 진행해주세요."));
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!isPasswordCorrect)
-      return next(createError(400, "Wrong password or username!"));
+      return next(createError(400, "비밀번호가 일치하지 않습니다."));
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT

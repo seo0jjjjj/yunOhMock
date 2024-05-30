@@ -13,16 +13,23 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  email: {
+  nickname: {
     type: String,
-    required: true,
-    unique: true
+    required: true
+  },
+  // 승패
+  recoard : {
+    type: [Number],
+    default: [0,0,0]
   },
   isAdmin: {
     type: Boolean,
     default: false,
   },
-},
+  imgURL : {
+    type: String,
+    default: ""
+  }},
 { timestamps: true }
 );
 

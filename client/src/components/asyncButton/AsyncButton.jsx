@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import './AsyncButton.css';
 
-const AsyncButton = ({ children, styleObj, className }) => {
+const AsyncButton = ({ children, styleObj, className, onClick }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = async (e) => {
     setIsLoading(true);
-    setTimeout(() => {
+    if(!onClick) {
+      // If onClick is not provided, wait 1s
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsLoading(false);
-    }, 1000);
+      return;
+    }
+    await onClick(e);
+    setIsLoading(false);
   };
 
   return (

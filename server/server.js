@@ -1,65 +1,39 @@
-import express from "express";
 import app from "./app.js";
 import dotenv from 'dotenv';
-import mongoose from "mongoose";
 import http from "http";
-import { Server as SocketIOServer } from 'socket.io';
+import { createFile, initalizeDatabase, initializeSocket } from "./utils/Initializer.js";
 
-dotenv.config();
 
-console.log(process.env.CLIENT_URL);
+async function start(){
 
-const connect = async () => {
-  try {
-    const mongo = await mongoose.connect(process.env.MONGO);
-    console.log("mongo db connected!");
-  } catch (error) {
-    console.log("mongoose connection error");
-    throw error;
-  }
-};
+  // 0. 미들웨어 초기화
+  console.log("✅ 0. Middleware initialized!");
+  // 1. upload파일 생성
+  createFile(); 
+  // 2. MongoDB 연결
+  await initalizeDatabase();
+  console.log("✅ 2. mongo db connected!");
 
-// 연결 해제 이벤트핸들
-mongoose.connection.on("disconnected", () => {
-  console.log("mongoDB disconnected");
-});
+  // 3. HTTP 서버 및 Socket.IO 설정
+  const server = http.createServer(app);
+  const client = [];
 
-// HTTP 서버 및 Socket.IO 설정
-const server = http.createServer(app);
-const io = new SocketIOServer(server, {
-  cors: {
-    origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000"],
-    methods: ["GET", "POST"],
-    credentials: true
-  }
-});
+  console.log('──────────────────────────────────────────────────────');
 
-const clients = []; // 소켓 클라이언트 담는용
+  server.listen(process.env.PORT, async () => {
+    console.log('🚀 server running at ' + process.env.PORT);
+    
+    // Socket.IO 서버 초기화 
+    initializeSocket(server, client );
+    
+    // setInterval(() => {
+    //   console.log(`  📊 ${client.length} users connected`);
+    // },10000);
+
+  });
+}
+
+start();
+
+
  
-// 클라이언트 접속
-io.on('connection', (socket) => {
-  console.log(`A user connected => ${socket.id}`);
-  clients.push(socket);
-
-
-  io.emit('message', 'Hello from server!')
-  
-  socket.on('request_reload', (message) => {
-    console.log(`reload request => ${message}`);
-    socket.emit('reload','true');
-  });
-
-  socket.on('message', (message) => {
-    console.log(`message => ${JSON.stringify(message,null,2)}`);
-  });
-
-  socket.on('disconnect', () => {
-    const index = clients.indexOf(socket);
-    console.log(`A user disconnected ${clients[index].id}`);
-    clients.splice(index, 1);
-  });
-});
-
-server.listen(8080, () => {
-  console.log('server running at http://localhost:8080');
-});

@@ -1,21 +1,64 @@
-import { createContext } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 const INITIAL_STATE = {
-    ...localStorage.getItem("userInfo") || null
+    userInfo : localStorage.getItem("userInfo") || null,
+    isLoggedIn : localStorage.getItem("userInfo") ? true : false,
+    error : null, 
 }
 
 
-export const UserInfoContext = createContext({});
+export const UserInfoContext = createContext(INITIAL_STATE);
+
+
+const AuthReducer = (state, action) => {
+
+    switch (action.type) {
+        case "LOGIN":
+            return {
+                user: action.payload,
+                isLoggedIn : true,
+                error : null,
+            }
+        case "LOGOUT":
+            return {
+                user: null,
+                isLoggedIn : false,
+                error : null,
+            }
+        case "LOGIN_FAILURE":
+            return {
+                user: null,
+                isLoggedIn: false,
+                error: action.payload,
+            }
+        case "UPDATE_USER_DATA":
+            return {
+                user: action.payload,
+                isLoggedIn: false,
+                error: null,
+            }
+        default:
+            return state;
+        }
+}
+
 
 export const UserInfoProvider = ({ children }) => {
+    const [state ,dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+    
+    useEffect(() => {
+        localStorage.setItem("userInfo", JSON.stringify(state.user));
+    }, [state.user])
+
+
     return (
         <UserInfoContext.Provider value={
-            username,
-            email,
-            password,
-            nickname,
-            record,
-
+            {
+                dispatch,
+                userInfo : state.user,
+                error : state.error,
+                isLoggedIn : state.isLoggedIn
+            }
         }>
             {children}
         </UserInfoContext.Provider>

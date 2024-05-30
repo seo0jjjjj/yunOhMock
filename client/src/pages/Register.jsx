@@ -13,6 +13,7 @@ function Register() {
     const [confirmedPassword, setConfirmedPassword] = useState("");
     const [nickname, setNickname] = useState("");
     const [profileOption, setProfileOption] = useState("option4");
+    const [errorSpan, setErrorSpan] = useState("");
 
     const profileOptions = useMemo(() => [
         { src: "profile_sample_01.png", value: "option1" },
@@ -22,8 +23,12 @@ function Register() {
     ], []);
 
     useEffect(() => {
-        console.log("useEffect called from Register")
-    }, [])
+        if(password !== confirmedPassword) {
+            setErrorSpan("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        setErrorSpan("");
+    }, [password,confirmedPassword])
 
     console.log("reRender");
 
@@ -32,10 +37,27 @@ function Register() {
             <div className="register-form">
                 <h1>회원가입</h1>
                 <form>
-                    <InputField label="아이디" type="text" id="username" state={[username, setUsername]} autoFocus={true} />
+                    <InputField label="아이디" type="text" id="username" state={[username, setUsername]} autoFocus={true}>
+                        <AsyncButton styleObj= {{
+                            paddingInline : "1em",
+                            height: "25px",
+                            position:"absolute" , 
+                            right: "0",
+                            top: "0",
+                            marginTop: "5px",
+                            marginRight: "5px",  
+                            borderRadius: "60px",
+                        }}>
+                            <span style={{fontWeight: "400", fontSize:"10px"}}>중복 확인</span>   
+                        </AsyncButton>
+                        <span className="error-span" style={{opacity : 1}}>{"아 기모찌"}</span>
+                    </InputField>
+
                     <InputField label="비밀번호" type="password" id="password" state={[password, setPassword]} />
-                    <InputField label="비밀번호 확인" type="password" id="check-password" state={[confirmedPassword, setConfirmedPassword]} />
-                    <InputField label="닉네임" type="text" id="nickname" state={[nickname, setNickname]} autoFocus={true} />
+                    <InputField label="비밀번호 확인" type="password" id="check-password" state={[confirmedPassword, setConfirmedPassword]}>
+                        <span className="error-span" style={{opacity : !errorSpan ? 0 : 1}}>{errorSpan}</span>
+                    </InputField>
+                    <InputField label="닉네임" type="text" id="nickname" state={[nickname, setNickname]} />
 
                     <span className="label-text">프로필 이미지 선택</span>
                     <div className="img-container">
@@ -47,7 +69,7 @@ function Register() {
                         ))}
                     </div>
                 </form>
-                <AsyncButton>
+                <AsyncButton styleObj={{ width: "400px", height: "40px" }}>
                     <span style={{ fontWeight: "600" }}>
                         회원가입
                     </span>

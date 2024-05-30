@@ -49,3 +49,9 @@
 .register-btn {
     font-weight: 500;
 }
+
+.error-span{
+    position: relative;
+    display: block;
+    
+}

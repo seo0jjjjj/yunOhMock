@@ -18,6 +18,7 @@
 }
 
 .nav-item {
+  cursor: pointer;
   padding: 10px 20px;
   font-weight: 600;
   margin-inline: 10px;
