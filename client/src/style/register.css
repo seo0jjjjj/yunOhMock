@@ -50,8 +50,12 @@
     font-weight: 500;
 }
 
-.error-span{
+.error-span {
     position: relative;
     display: block;
-    
+
+}
+
+.wrong-input {
+    border: 1px solid red !important;
 }

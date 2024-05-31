@@ -1,9 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
 
 const INITIAL_STATE = {
-    userInfo : localStorage.getItem("userInfo") || null,
-    isLoggedIn : localStorage.getItem("userInfo") ? true : false,
-    error : null, 
+    user: JSON.parse(sessionStorage.getItem("userInfo")) || null,
+    isLoggedIn: sessionStorage.getItem("userInfo") ? true : false,
+    error: null,
 }
 
 
@@ -16,14 +16,14 @@ const AuthReducer = (state, action) => {
         case "LOGIN":
             return {
                 user: action.payload,
-                isLoggedIn : true,
-                error : null,
+                isLoggedIn: true,
+                error: null,
             }
         case "LOGOUT":
             return {
                 user: null,
-                isLoggedIn : false,
-                error : null,
+                isLoggedIn: false,
+                error: null,
             }
         case "LOGIN_FAILURE":
             return {
@@ -39,15 +39,16 @@ const AuthReducer = (state, action) => {
             }
         default:
             return state;
-        }
+    }
 }
 
 
 export const UserInfoProvider = ({ children }) => {
-    const [state ,dispatch] = useReducer(AuthReducer, INITIAL_STATE);
-    
+    const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+
     useEffect(() => {
-        localStorage.setItem("userInfo", JSON.stringify(state.user));
+        sessionStorage.setItem("userInfo", JSON.stringify(state.user));
+
     }, [state.user])
 
 
@@ -55,9 +56,9 @@ export const UserInfoProvider = ({ children }) => {
         <UserInfoContext.Provider value={
             {
                 dispatch,
-                userInfo : state.user,
-                error : state.error,
-                isLoggedIn : state.isLoggedIn
+                userInfo: state.user,
+                error: state.error,
+                isLoggedIn: state.isLoggedIn
             }
         }>
             {children}

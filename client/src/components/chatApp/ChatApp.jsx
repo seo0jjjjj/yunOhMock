@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import "./chatApp.css";
-import "boxicons";
 import { socket } from "../../util/socketHandler";
 import AsyncButton from "../asyncButton/AsyncButton";
 import MessageSpan from "../messageSpan/MessageSpan";
+import 'boxicons'
 import { UserInfoContext } from "../../context/UserInfoContext";
 
 export default function ChatApp() {
@@ -34,8 +34,11 @@ export default function ChatApp() {
   const handlePost = () => {
     const value = inputRef.current.value;
 
-    if (value.replace(" ", "").length === 0) return;
-
+    // 채팅이 비어있는지 확인
+    if (/^\s*$/.test(value)) {
+      alert("채팅을 입력해주세요.");
+      return;
+    }
     postMessage(value);
 
     inputRef.current.value = "";
@@ -43,8 +46,8 @@ export default function ChatApp() {
 
   const postMessage = (value) => {
     const message = {
+      sender: userInfo,
       content: value,
-      username: userInfo?.nickname,
       time: new Date().getTime,
     };
 
@@ -58,13 +61,13 @@ export default function ChatApp() {
     socket.emit("request-all-chats");
   };
 
-  const startSocketConnection = () => {
+  const startSocketConnection = useCallback(() => {
     console.log("🔁 try to connect socket");
     // connect Socket and request Chat Server\
     const interval = setInterval(() => {
       socket.connect();
       console.log(
-        ` ${socket.connected ? "connect failed" : "connect success"}`
+        ` ${!socket.connected ? "socket connect request failed" : "socket connect request success"}`
       );
       if (socket.connected) {
         clearInterval(interval);
@@ -72,7 +75,7 @@ export default function ChatApp() {
         onSocketConnected();
       }
     }, 1000);
-  };
+  }, []);
 
   useEffect(() => {
     // join chat and
@@ -82,33 +85,27 @@ export default function ChatApp() {
     // load Chats
 
     socket.on("handshake", (data) => {
-      console.log(`  🏡session-id: ${data.sessionId}`);
+      console.log(`  🏡 session-id: ${data.sessionId}`);
       setSessionId(data.sessionId);
       console.log(data.message);
     });
 
     socket.on("response-all-chats", (messages) => {
-      console.log("All chats loaded! [length]: " + messages);
+      console.log("  📪 All chats loaded! [length]: " + messages?.length || 0);
       setMessages(messages);
     });
 
     socket.on("chat-from-server", (data) => {
       const message = data;
-      // print new user arrived!
-      if (message.sessionId === sessionId) {
-        message.isMine = true;
-      }
 
       setMessages((prev) => [...prev, message]);
-
-      console.log(message);
     });
     return () => {
       socket.removeAllListeners();
     };
     // set Event hadle
     //
-  }, [sessionId, messages]);
+  }, [sessionId, messages, startSocketConnection]);
 
   return (
     <>
@@ -135,7 +132,7 @@ export default function ChatApp() {
             <span className="joined-message"></span>
 
             {messages.map((message, index) => (
-              <MessageSpan key={index} message={message} />
+              <MessageSpan key={index} message={message} mySessionId={sessionId} />
             ))}
             <div ref={messageEndRef}> </div>
           </div>

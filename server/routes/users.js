@@ -6,7 +6,7 @@ import {
   getUsers,
 } from "../controllers/user.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
-import {upload} from "../utils/Iohandler.js"
+import { upload } from "../utils/Iohandler.js"
 
 
 const router = express.Router();

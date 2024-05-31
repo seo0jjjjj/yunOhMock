@@ -18,19 +18,20 @@ const UserSchema = new Schema({
     required: true
   },
   // 승패
-  recoard : {
+  recoard: {
     type: [Number],
-    default: [0,0,0]
+    default: [0, 0, 0]
   },
   isAdmin: {
     type: Boolean,
     default: false,
   },
-  imgURL : {
+  imgURL: {
     type: String,
     default: ""
-  }},
-{ timestamps: true }
+  }
+},
+  { timestamps: true }
 );
 
 export default mongoose.model('User', UserSchema)

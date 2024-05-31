@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const sendRequest = async (method, url, data, { onSuccess, onFailure }, withCredentials = false) => {
+const sendRequest = async (method, url, data, handlers, withCredentials = false) => {
+  const { onSuccess, onFailure } = handlers || {};
   try {
     const res = await axios({
       method,
@@ -33,4 +34,8 @@ export const getSession = async (handlers) => {
 
 export const googleAuth = async (data, handlers) => {
   await sendRequest('post', 'api/auth/login-via-google', data, handlers);
+}
+
+export const checkUsernameAvailability = async (username, handlers) => {
+  await sendRequest('post', `api/auth/username-duplication`, { username }, handlers, false);
 }
