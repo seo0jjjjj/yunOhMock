@@ -10,7 +10,9 @@ import session from "express-session";
 import dotenv from 'dotenv';
 dotenv.config();
 
-const app = express();
+export const app = express();
+
+
 export const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -37,7 +39,7 @@ export const sessionMiddleware = session({
     app.use(express.json());
 
     app.use(cors({
-      origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000"],
+      origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000",process.env.CLIENT_URL],
       credentials: true,
       methods: ["GET", "POST"]
     }));
@@ -86,4 +88,3 @@ export const sessionMiddleware = session({
   }
 
 
-export default app;

@@ -27,6 +27,8 @@
   border-radius: 12px;
   border-bottom-left-radius: 0px;
   padding: 10px;
+  max-width: 190px;
+  word-break: break-all;
 }
 
 .reverse {
@@ -40,6 +42,7 @@
 
 .reverse .message-detail {
   background-color: rgb(248, 248, 248);
+  white-space: normal;
   border-radius: 12px;
   border-bottom-right-radius: 0px;
 }

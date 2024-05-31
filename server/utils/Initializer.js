@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import mongoose from "mongoose";
 import { Server as SocketIOServer } from 'socket.io';
 import fs from "fs";
-import { sessionMiddleware } from '../app';
+import { sessionMiddleware, app} from '../app.js';
 
 dotenv.config();
 
@@ -32,38 +32,21 @@ export async function initalizeDatabase() {
 /**
  * Socket.IO 서버를 초기화하는 함수
  */
-export async function initializeSocket(server, clients){
+export function initializeSocket(server, clients){
 
   const io = new SocketIOServer(server, {
     cors: {
-      origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000"],
+      origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000",process.env.CLIENT_URL],
       methods: ["GET", "POST"],
       credentials: true
     }
   });
   
-  io.use(sessionMiddleware(socket.request, {}, next));
-  
-  // 클라이언트 접속
-  io.on('connection', (socket) => { 
-    clients.push(socket);
-    console.log(`  🤝 A user connected => ${socket.id.slice(0,5)} (${clients.length} user Connected)` + socket.request.session.id);
-
-    socket.on('request_reload', (message) => {
-      console.log(`reload request => ${message} ${socket.id.slice(0,5)}`);
-      socket.emit('reload','true');
-    });
-  
-    socket.on('message', (message) => {
-      console.log(`  📩message => ${JSON.stringify(message,null,2)}`);
-    });
-  
-    socket.on('disconnect', () => {
-      const index = clients.indexOf(socket);
-      clients.splice(index, 1);
-      console.log(`  🖐A user disconnected => ${socket.id.slice(0,5)} (${clients.length} user Connected)`);
-    });
+  io.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next)
   });
+  
+  return io;
 }
  
 

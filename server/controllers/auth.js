@@ -5,6 +5,14 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import { validateGoogleToken } from "../utils/googleService.js";
 
+export const session = (req, res, next) => {
+  try {
+    console.log("request arrived");
+    res.status(200).send("session created");
+  } catch (err) {
+    next(err);
+  }  
+};
 
 export const register = async (req, res, next) => {
   const { password, ...rest } = req.body;
@@ -42,11 +50,6 @@ export const login = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        /*
-        secure : process.env.NODE_ENV === "production",
-        path : "/",
-        sameSite : 'strict',
-        */
       })
       .status(200)
       .json({ details: { ...otherDetails }, isAdmin });
