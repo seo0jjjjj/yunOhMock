@@ -1,37 +1,57 @@
-.game-board {
-  border-collapse: collapse;
-  /* border: 1px dotted black; */
-
+:root {
+    --board-size: 15;
+    --board-screen-size: 4em;
+    --fake-board-width: calc(var(--board-screen-size) / var(--board-size) * calc(var(--board-size) - 1));
 }
 
-.game-board > tr > td{
-  content: ' ';
-  position: relative;
-  /* border: 1px solid yellow; */
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
+.board-backgorund {
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    width: 5em;
+    height: 5em;
+    font-size: 20em;
 }
 
-.game-board > tr > td::before{
-  content: ' ';
-  position: absolute;
-  /* top: 50%; 
-  left: 50%; */
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
-  width: 100%;
-  height: 100%;
+.board {
+    position: relative;
 }
 
-.game-board > tr:nth-last-child(1) > td::before{
-  border: none;
+.real-board {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: calc(var(--board-screen-size));
+    height: calc(var(--board-screen-size));
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(var(--board-size), 1fr);
 }
 
-.game-board > tr > td:nth-last-child(1)::before{
-  border: none;
+.real-board .row {
+    display: grid;
+    grid-template-columns: repeat(var(--board-size), 1fr);
 }
 
-.game-board > tr > td:hover {
-  background-color: blue;
+.real-board .cell {
+    transform: translate(-50%, -50%);
+    border: 1px solid yellow;
+}
+
+.fake-board {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(calc(var(--board-size) - 1), 1fr);
+    grid-template-rows: repeat(calc(var(--board-size) - 1), 1fr);
+    width: var(--fake-board-width);
+    height: var(--fake-board-width);
+}
+
+.fake-cell {
+    border: 1px solid black;
+    z-index: 1;
 }

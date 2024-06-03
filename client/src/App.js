@@ -18,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth/google" element={<GoogleAuth />} />
+        <Route path="/game/:id" element={<GameBoard />} />
       </Routes>
       <ChatApp />
     </BrowserRouter>

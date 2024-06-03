@@ -41,16 +41,16 @@
   height: 85%;
   padding: 5px;
   overflow-y: auto;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
-.chat-content::-webkit-scrollbar{
+.chat-content::-webkit-scrollbar {
   width: 5px;
   height: 1px;
   border-radius: 50%;
 }
 
-.chat-content::-webkit-scrollbar-thumb{
+.chat-content::-webkit-scrollbar-thumb {
   background-color: gray;
   border-radius: 10px;
 }
