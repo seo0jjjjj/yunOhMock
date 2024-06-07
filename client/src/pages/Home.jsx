@@ -4,7 +4,6 @@ import { UserInfoContext } from "../context/UserInfoContext";
 import { socket } from "../util/socketHandler";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Home() {
   const { userInfo } = useContext(UserInfoContext);
   const [isMatching, setIsMatching] = useState(false);
@@ -24,7 +23,11 @@ export default function Home() {
     }
 
     if (isMatching) {
-      const isCancel = window.confirm("매칭을 취소하시겠습니까?", "취소", "계속 매칭");
+      const isCancel = window.confirm(
+        "매칭을 취소하시겠습니까?",
+        "취소",
+        "계속 매칭"
+      );
       if (isCancel) {
         socket.emit("match-cancel", userInfo);
         setIsMatching(false);
@@ -58,11 +61,10 @@ export default function Home() {
       }
     }, 1000);
 
-    return (() => {
+    return () => {
       clearInterval(interval);
-    })
+    };
   }, [isMatching]);
-
 
   useEffect(() => {
     if (userInfo === null) {
@@ -78,34 +80,40 @@ export default function Home() {
     });
 
     socket.on("match-success", (data) => {
-      navigate(`/game/${data.roomId}`)
+      navigate(`/game/${data.roomId}`);
     });
 
-    return (() => {
+    return () => {
       socket.off("match-start");
       socket.off("match-fail");
       socket.off("match-success");
-    });
-  }, [socket, userInfo])
+    };
+  }, [socket, userInfo]);
 
   return (
     <>
       <div className="flex-container">
         <div className="panel">
           <div className="left-side-panel panel-item">
-            <h1 className="title panel-item">친구와 함께 오목을 플레이해보세요.</h1>
-            <h2 className="content panel-item">친구를 초대하고 실시간으로 구경할 수 있습니다.</h2>
-            <button onClick={handleMatchingStart}>{btnStartMatching}</button>
-            <button className="btn-watch">구경하기</button>
-            {/* {isMatching && (<p>현재 매칭중인 플레이어 수 : </p>)} */}
-
+            <h1 className="title panel-item">
+              친구와 함께 오목을 플레이해보세요.
+            </h1>
+            <h2 className="content panel-item">
+              친구를 초대하고 실시간으로 구경할 수 있습니다.
+            </h2>
+            <div className="btn-container">
+              <button onClick={handleMatchingStart} className="btn-start b">
+                {btnStartMatching}
+              </button>
+              <button className="btn-watch b">구경하기</button>
+              {/* {isMatching && (<p>현재 매칭중인 플레이어 수 : </p>)} */}
+            </div>
           </div>
           <div className="right-side-panel">
-            <img src="main-panel.png" alt="대충 이미지" />
+            <img src="main-panel.png" className="main-img" alt="대충 이미지" />
           </div>
         </div>
-      </div >
-
+      </div>
     </>
   );
 }
