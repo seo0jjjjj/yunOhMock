@@ -39,7 +39,7 @@
 
 .real-board .cell {
     transform: translate(-50%, -50%);
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
 }
 
 .fake-board {

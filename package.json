@@ -6,7 +6,8 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd server && npm start",
-    "client": "cd client && npm start"
+    "client": "cd client && npm start",
+    "ohmock-init" : "concurrently \"cd client && npm i\" \"cd server && npm i\""
   },
   "keywords": [],
   "author": "",
