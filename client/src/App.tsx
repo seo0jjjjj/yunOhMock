@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Home from "./pages/Home";
 import Nav from "./components/nav/Nav";
 import GameBoard from "./components/gameboard/GameBoard";
@@ -8,7 +9,7 @@ import GoogleAuth from "./pages/GoogleAuth";
 import Register from "./pages/Register";
 import React from "react";
 
-function App(): React.FC {
+function App(): React.ReactElement {
 
   return (
     <BrowserRouter>

@@ -4,6 +4,7 @@ import InputField from "../components/inputField/InputField";
 import "../style/register.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { checkUsernameAvailability, register } from "../util/axiosService";
+import React from 'react';
 
 const SERVER_UPLOAD_URL = `${process.env.REACT_APP_SERVER_URL}uploads/samples/`;
 

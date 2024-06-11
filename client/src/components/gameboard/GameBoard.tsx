@@ -1,13 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./gameBoard.css"
 
 const boardSize = 15;
 
-export default function GameBoard() {
-  const [currentDot, setCurrentDot] = useState("");
+export const GameBoard: React.FC = () => {
+  const [currentDot, setCurrentDot] = useState<string>("");
 
-  const handlePlaceDot = (e) => {
-    setCurrentDot(e.target.id);
+  const handlePlaceDot = (e: React.MouseEvent<HTMLElement>) => {
+    setCurrentDot((e.target as HTMLElement).id);
   }
 
   return (

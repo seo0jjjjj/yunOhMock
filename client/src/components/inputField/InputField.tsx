@@ -2,8 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 
 import "./inputField.css";
 
-const InputField = React.memo(
-  ({ label, type, id, state, autoFocus, children, rep }) => {
+
+interface InputFieldProps {
+  label: string;
+  type: string;
+  id: string;
+  state: [string, React.Dispatch<React.SetStateAction<string>>];
+  autoFocus?: boolean;
+  children?: React.ReactNode;
+  rep?: React.RefObject<HTMLInputElement>;
+}
+
+const InputField: React.MemoExoticComponent<InputFieldProps> = React.memo(
+  ({ label, type, id, state, autoFocus, children, rep }: InputFieldProps) => {
     const [showPassword, setShowPassword] = useState(false);
     const [inputState, setInputState] = state;
 
