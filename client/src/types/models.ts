@@ -1,4 +1,4 @@
-export interface Users {
+export interface User {
     _id: number;
     username: string;
     record: number[];    
@@ -8,7 +8,7 @@ export interface Users {
 }
 
 export interface Message {
-  sender: string; // UserId
+  sender: User; // UserId
   content: string; // message content
   time: Date; // message time
 }

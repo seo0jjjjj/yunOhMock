@@ -4,11 +4,12 @@ import { socket } from "../../util/socketHandler";
 import AsyncButton from "../asyncButton/AsyncButton";
 import MessageSpan from "../messageSpan/MessageSpan";
 import 'boxicons'
-import { UserInfoContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
+import { AuthContextTypes, Message } from "../../types";
 
 
 export default function ChatApp() : Element {
-  const { userInfo, isLoggedIn } = useContext();
+  const { user } = useContext<AuthContextTypes>(AuthContext);
   const [isChatAppOpen, setChatAppOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const inputRef = useRef<HTMLInputElement>();
@@ -19,35 +20,35 @@ export default function ChatApp() : Element {
 
   useEffect((): void=> {
     if (messages?.length > 0) {
-      messageEndRef?.current?.scrollIntoView({ behavior: "smooth" });
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
   // 플로팅버튼 클릭 이벤트
   const handleFloatingBtnClicked = () => {
     // 말풍선이 더 이상 보이지 않도록 수정
-    ballonRef.current.style.opacity = 0;
-
+    ballonRef.current!.style.opacity = "0";
     setChatAppOpen(!isChatAppOpen);
   };
 
   // 채팅 전송
   const handlePost = () => {
-    const value = inputRef.current.value;
-
+    if (inputRef.current?.value === undefined) return;
+    
+    const value = inputRef.current?.value;
     // 채팅이 비어있는지 확인
-    if (/^\s*$/.test(value)) {
+    if (/^\s*$/.test(value!)) {
       alert("채팅을 입력해주세요.");
       return;
     }
     postMessage(value);
 
-    inputRef.current.value = "";
+    inputRef.current!.value = "";
   };
 
-  const postMessage = (value) => {
+  const postMessage = (value : string) => {
     const message = {
-      sender: userInfo,
+      sender: user,
       content: value,
       time: new Date().getTime,
     };
