@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../style/home.css";
-import { UserInfoContext } from "../context/UserInfoContext";
+import { UserInfoContext } from "../context/AuthContext";
 import { socket } from "../util/socketHandler";
 import { useNavigate } from "react-router-dom";
 

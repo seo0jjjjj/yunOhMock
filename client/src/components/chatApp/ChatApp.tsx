@@ -4,7 +4,7 @@ import { socket } from "../../util/socketHandler";
 import AsyncButton from "../asyncButton/AsyncButton";
 import MessageSpan from "../messageSpan/MessageSpan";
 import 'boxicons'
-import { UserInfoContext } from "../../context/UserInfoContext";
+import { UserInfoContext } from "../../context/AuthContext";
 
 interface Message {
   sender: string;

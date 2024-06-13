@@ -1,4 +1,5 @@
 export * from "./reactTypes";
+export * from "./props";
 
 export interface Users {
     _id: number;

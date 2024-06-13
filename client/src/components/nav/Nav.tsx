@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./nav.css";
 import React, { useContext } from 'react';
-import { UserInfoContext } from "../../context/UserInfoContext";
+import { UserInfoContext } from "../../context/AuthContext";
 import { logout } from "../../util/axiosService";
 
 export default function Nav() {

@@ -3,7 +3,7 @@ import AsyncButton from "../components/asyncButton/AsyncButton";
 import InputField from "../components/inputField/InputField";
 import "../style/login.css";
 import { useContext, useEffect, useState } from "react";
-import { UserInfoContext } from "../context/UserInfoContext";
+import { UserInfoContext } from "../context/AuthContext";
 import { login } from "../util/axiosService";
 
 function Login() {

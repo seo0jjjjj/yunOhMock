@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import "./messageSpan.css";
-import { UserInfoContext } from "../../context/UserInfoContext";
+import { UserInfoContext } from "../../context/AuthContext";
 
 function MessageSpan({ message, mySessionId }) {
   const { sessionId, sender } = message;

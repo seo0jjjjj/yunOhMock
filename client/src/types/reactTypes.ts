@@ -16,6 +16,4 @@ export interface AuthAction {
   error: Error | null;
 }
 
-export interface OnlyChildrenProps {
-    children: React.ReactNode;
-}
+
