@@ -8,15 +8,18 @@ import { AuthContext } from "../../context/AuthContext";
 import { AuthContextTypes, Message } from "../../types";
 
 
-export default function ChatApp() : Element {
+export const ChatApp : React.FC = () => {
   const { user } = useContext<AuthContextTypes>(AuthContext);
+  
   const [isChatAppOpen, setChatAppOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const inputRef = useRef<HTMLInputElement>();
-  const messageEndRef = useRef<HTMLDivElement>();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const messageEndRef = useRef<HTMLDivElement>(null);
+  const ballonRef = useRef<HTMLDivElement>(null);
+
   const [sessionId, setSessionId] = useState();
 
-  const ballonRef = useRef<HTMLDivElement>();
 
   useEffect((): void=> {
     if (messages?.length > 0) {
@@ -47,10 +50,10 @@ export default function ChatApp() : Element {
   };
 
   const postMessage = (value : string) => {
-    const message = {
+    const message: Message= {
       sender: user,
-      content: value,
-      time: new Date().getTime,
+      content : value,
+      time: new Date(),
     };
 
     socket.emit("chat-to-server", message);
@@ -122,9 +125,9 @@ export default function ChatApp() : Element {
           draggable={"false"}
         >
           {isChatAppOpen ? (
-            <box-icon name="comment-x" type="solid"></box-icon>
+            <i className="bx bx-comment-x bx-solid"></i>
           ) : (
-            <box-icon name="message-dots" type="solid"></box-icon>
+            <i className="bx bx-message-dots bx-solid"></i>
           )}
         </div>
       </div>

@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Message {
-  sender: User; // UserId
+  sender: User | null; // UserId
   content: string; // message content
-  time: Date; // message time
+  time: Date;
 }
