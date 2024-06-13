@@ -6,17 +6,23 @@ import MessageSpan from "../messageSpan/MessageSpan";
 import 'boxicons'
 import { UserInfoContext } from "../../context/UserInfoContext";
 
-export default function ChatApp() {
+interface Message {
+  sender: string;
+  content: string;
+  time: number;
+}
+
+export default function ChatApp() : Element {
   const { userInfo, isLoggedIn } = useContext(UserInfoContext);
-  const [isChatAppOpen, setChatAppOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const inputRef = useRef();
-  const messageEndRef = useRef();
+  const [isChatAppOpen, setChatAppOpen] = useState<boolean>(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const inputRef = useRef<HTMLInputElement>();
+  const messageEndRef = useRef<HTMLDivElement>();
   const [sessionId, setSessionId] = useState();
 
-  const ballonRef = useRef();
+  const ballonRef = useRef<HTMLDivElement>();
 
-  useEffect(() => {
+  useEffect((): void=> {
     if (messages?.length > 0) {
       messageEndRef?.current?.scrollIntoView({ behavior: "smooth" });
     }

@@ -1,16 +1,18 @@
-import { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
+import {AuthAction, AuthContext, AuthState, OnlyChildrenProps} from '../types'
 
-const INITIAL_STATE = {
-    user: JSON.parse(sessionStorage.getItem("userInfo")) || null,
+const INITIAL_STATE: AuthContext = {
+    user: JSON.parse(sessionStorage.getItem("userInfo")!) || null,
     isLoggedIn: sessionStorage.getItem("userInfo") ? true : false,
     error: null,
+    dispatch: null,
 }
 
 
-export const UserInfoContext = createContext(INITIAL_STATE);
+export const UserInfoContext: React.Context<AuthContext>  = createContext(INITIAL_STATE);
 
 
-const AuthReducer = (state, action) => {
+const AuthReducer = (state :AuthState , action : AuthAction): any => {
 
     switch (action.type) {
         case "LOGIN":
@@ -43,11 +45,11 @@ const AuthReducer = (state, action) => {
 }
 
 
-export const UserInfoProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+export const UserInfoProvider: React.FC<OnlyChildrenProps> = ({ children }) => {
+    const [state, dispatch] = useReducer<React.Reducer<AuthState, AuthAction>>(AuthReducer, INITIAL_STATE);
 
     useEffect(() => {
-        sessionStorage.setItem("userInfo", JSON.stringify(state.user));
+        sessionStorage.setItem("user", JSON.stringify(state.user));
 
     }, [state.user])
 
@@ -56,7 +58,7 @@ export const UserInfoProvider = ({ children }) => {
         <UserInfoContext.Provider value={
             {
                 dispatch,
-                userInfo: state.user,
+                user: state.user,
                 error: state.error,
                 isLoggedIn: state.isLoggedIn
             }

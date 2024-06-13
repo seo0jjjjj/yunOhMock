@@ -9,7 +9,7 @@ interface AsyncButtonProps {
   onClick?: (e: React.MouseEvent) => Promise<void>;
 }
 
-const AsyncButton: React.FC<AsyncButtonProps> = ({ children, styleObj = {}, className = '', onClick }) => {
+const AsyncButton: React.FC<AsyncButtonProps> = ({ children, styleObj = {}, className = '', onClick } : AsyncButtonProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleClick: (e: React.MouseEvent) => Promise<void> = async (e) => {
