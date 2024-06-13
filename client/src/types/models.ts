@@ -6,3 +6,9 @@ export interface Users {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface Message {
+  sender: string; // UserId
+  content: string; // message content
+  time: Date; // message time
+}

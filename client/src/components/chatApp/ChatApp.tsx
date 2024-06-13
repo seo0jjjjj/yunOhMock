@@ -6,14 +6,9 @@ import MessageSpan from "../messageSpan/MessageSpan";
 import 'boxicons'
 import { UserInfoContext } from "../../context/AuthContext";
 
-interface Message {
-  sender: string;
-  content: string;
-  time: number;
-}
 
 export default function ChatApp() : Element {
-  const { userInfo, isLoggedIn } = useContext(UserInfoContext);
+  const { userInfo, isLoggedIn } = useContext();
   const [isChatAppOpen, setChatAppOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const inputRef = useRef<HTMLInputElement>();

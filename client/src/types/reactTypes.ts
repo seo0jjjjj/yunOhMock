@@ -1,6 +1,6 @@
 import { Users } from './index';
 
-export interface AuthContext extends AuthState {
+export interface AuthContextTypes extends AuthState {
     dispatch: React.Dispatch<AuthAction> | null;
 }
 

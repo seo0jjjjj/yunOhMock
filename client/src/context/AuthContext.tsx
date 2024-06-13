@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import {AuthAction, AuthContext, AuthState, OnlyChildrenProps} from '../types'
+import {AuthAction, AuthContextTypes, AuthState, OnlyChildrenProps} from '../types'
 
-const INITIAL_STATE: AuthContext = {
+const INITIAL_STATE: AuthContextTypes = {
     user: JSON.parse(sessionStorage.getItem("userInfo")!) || null,
     isLoggedIn: sessionStorage.getItem("userInfo") ? true : false,
     error: null,
@@ -9,7 +9,7 @@ const INITIAL_STATE: AuthContext = {
 }
 
 
-export const UserInfoContext: React.Context<AuthContext>  = createContext(INITIAL_STATE);
+export const AuthContext: React.Context<AuthContextTypes>  = createContext(INITIAL_STATE);
 
 
 const AuthReducer = (state :AuthState , action : AuthAction): any => {
@@ -45,7 +45,7 @@ const AuthReducer = (state :AuthState , action : AuthAction): any => {
 }
 
 
-export const UserInfoProvider: React.FC<OnlyChildrenProps> = ({ children }) => {
+export const AuthContextProvider: React.FC<OnlyChildrenProps> = ({ children }) => {
     const [state, dispatch] = useReducer<React.Reducer<AuthState, AuthAction>>(AuthReducer, INITIAL_STATE);
 
     useEffect(() => {
@@ -55,7 +55,7 @@ export const UserInfoProvider: React.FC<OnlyChildrenProps> = ({ children }) => {
 
 
     return (
-        <UserInfoContext.Provider value={
+        <AuthContext.Provider value={
             {
                 dispatch,
                 user: state.user,
@@ -64,6 +64,6 @@ export const UserInfoProvider: React.FC<OnlyChildrenProps> = ({ children }) => {
             }
         }>
             {children}
-        </UserInfoContext.Provider>
+        </AuthContext.Provider>
     )
 }
