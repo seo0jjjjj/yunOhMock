@@ -15,5 +15,3 @@ export interface AuthAction {
   type: "LOGIN" | "LOGOUT" | "LOGIN_FAILURE" | "UPDATE_USER_DATA"
   error: Error | null;
 }
-
-

@@ -1,28 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, MemoExoticComponent, memo, useEffect, useRef, useState, MouseEventHandler, ChangeEventHandler } from "react";
 
 import "./inputField.css";
+import { InputFieldProps } from "../../types";
 
 
-interface InputFieldProps {
-  label: string;
-  type: string;
-  id: string;
-  state: [string, React.Dispatch<React.SetStateAction<string>>];
-  autoFocus?: boolean;
-  children?: React.ReactNode;
-  rep?: React.RefObject<HTMLInputElement>;
-}
-
-const InputField: React.MemoExoticComponent<InputFieldProps> = React.memo(
-  ({ label, type, id, state, autoFocus, children, rep }: InputFieldProps) => {
-    const [showPassword, setShowPassword] = useState(false);
+const InputField: FC<InputFieldProps> = memo(
+  (({ label, type, id, state, autoFocus, children, rep }) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const [inputState, setInputState] = state;
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
 
-    const handleOnChange = (e) => {
+    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
       setInputState(e.target.value);
     };
 
@@ -58,7 +49,7 @@ const InputField: React.MemoExoticComponent<InputFieldProps> = React.memo(
         </div>
       </div>
     );
-  }
+  }) 
 );
 
 export default InputField;
