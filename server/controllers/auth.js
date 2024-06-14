@@ -1,9 +1,10 @@
-import User from "../models/User.js";
+import User from "../models/mysqlModels/User.js";
 import bcrypt from "bcryptjs"
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 import { validateGoogleToken } from "../utils/googleService.js";
+import Config from "../config/config.js";
 
 export const session = (req, res, next) => {
   try {
@@ -34,7 +35,7 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-
+    console.log(user);
     // check user is exist
     if (!user) return next(createError(404, "존재하지 않는 사용자입니다. 회원가입을 진행해주세요."));
     const isPasswordCorrect = await bcrypt.compare(
@@ -47,12 +48,8 @@ export const login = async (req, res, next) => {
       return next(createError(400, "비밀번호가 일치하지 않습니다."));
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT
+      Config.get("JWT")
     );
-
-
-    const { password, isAdmin, ...otherDetails } = user._doc;
-
 
     req.session.currentUser = ({ id: user._id });
 
@@ -61,7 +58,7 @@ export const login = async (req, res, next) => {
         httpOnly: false,
       })
       .status(200)
-      .json({ ...otherDetails, isAdmin });
+      .json(user);
   } catch (err) {
     next(err);
   }
@@ -71,7 +68,7 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res) => {
   res.clearCookie("access_token", {
     httpOnly: false,
-    secure: process.env.NODE_ENV === "production",
+    secure: Config.get("NODE_ENV") === "production",
     sameSite: "strict",
     /*
         secure : process.env.NODE_ENV === "production",

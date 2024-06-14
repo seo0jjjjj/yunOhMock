@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import { Server as SocketIOServer } from 'socket.io';
 import fs from "fs";
 import { sessionMiddleware, app} from '../app.js';
-
+import mysql from 'mysql2/promise'; 
+import Config from '../config/config.js';
 dotenv.config();
 
 /**
@@ -14,7 +15,7 @@ dotenv.config();
 export async function initalizeDatabase() {
   const connect = async () => {
     try {
-      const mongo = await mongoose.connect(process.env.MONGO);
+      const mongo = await mongoose.connect(Config.get("MONGO"));
     } catch (error) {
       console.log("❌ mongoose connection error");
       throw error;
@@ -30,13 +31,42 @@ export async function initalizeDatabase() {
 }
 
 /**
+ * Mysql pool을 만드는 함수
+ */
+export async function initializeMySql() {
+  // MySQL 연결 풀 연결
+    await mysql.createPool(data).getConnection((err, connection) => {
+      console.log("mysql 연결 시작");
+      if (err) {
+        console.error('Error connecting to the database:', err.stack);
+        rej();
+        return;
+      }
+      console.log('    MySQL연결 성공');
+      connection.release(); // 연결 반환
+      res();
+    })
+}
+const data = {
+  host: Config.get("DB_HOST"),
+  user: Config.get("DB_USER"),
+  password: Config.get("DB_PASSWORD"),
+  database: Config.get("DB_NAME"),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+};
+export const pool = mysql.createPool(data);
+
+
+/**
  * Socket.IO 서버를 초기화하는 함수
  */
 export function initializeSocket(server, clients){
 
   const io = new SocketIOServer(server, {
     cors: {
-      origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000",process.env.CLIENT_URL],
+      origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000",Config.get("CLIENT_URL")],
       methods: ["GET", "POST"],
       credentials: true
     }

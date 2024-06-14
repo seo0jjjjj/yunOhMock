@@ -9,9 +9,9 @@ export async function validateGoogleToken(code) {
   try {
     //토큰 발급 받기
     const googleTokenRequest = await axios.post("https://oauth2.googleapis.com/token",{
-      client_id: process.env.GOOGLE_CLIENT_ID, 
-      client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+      client_id: Config.get("GOOGLE_CLIENT_ID"), 
+      client_secret: Config.get("GOOGLE_CLIENT_SECRET"),
+      redirect_uri: Config.get("GOOGLE_REDIRECT_URI"),
       code,
       grant_type: "authorization_code"
     }

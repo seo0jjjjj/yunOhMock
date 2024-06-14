@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     required: true
   },
   // 승패
-  recoard: {
+  record: {
     type: [Number],
     default: [0, 0, 0]
   },

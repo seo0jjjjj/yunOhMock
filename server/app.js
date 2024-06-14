@@ -9,8 +9,8 @@ import { fileURLToPath } from 'url';
 import session from "express-session";
 import dotenv from 'dotenv';
 import connectMongoDBSession from 'connect-mongodb-session';
+import Config from "./config/config.js";
 
-dotenv.config();
 
 export const app = express();
 
@@ -19,7 +19,7 @@ export const app = express();
 const MongoDBStore = connectMongoDBSession(session);
 
 const store = new MongoDBStore({
-  uri: process.env.MONGO,
+  uri: Config.get("MONGO"),
   collection: 'sessions',
 
   expires: 1000 * 60 * 60 / 2 // 30 minutes
@@ -27,7 +27,7 @@ const store = new MongoDBStore({
 
 
 export const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
+  secret: Config.get("SESSION_SECRET"),
   resave: false,
   saveUninitialized: true,
   rolling: true, // 자동 갱신
@@ -57,7 +57,7 @@ try {
   app.use(express.json());
 
   app.use(cors({
-    origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000", process.env.CLIENT_URL],
+    origin: ["https://localhost:3000", "https://localhost", "http://localhost", "http://localhost:3000", Config.get("CLIENT_URL")],
     credentials: true,
     methods: ["GET", "POST"]
   }));
