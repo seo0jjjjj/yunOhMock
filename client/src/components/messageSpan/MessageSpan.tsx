@@ -42,7 +42,7 @@ function MessageSpan({ message, mySessionId} : MessageSpanProps):JSX.Element {
         </span>
         <span className="message-detail">{message.content}</span>
       </div>
-      <span className="message-time">{typeof message.time}</span>
+      {/* <span className="message-time">{typeof message.time}</span> */}
     </div>
   );
 }
