@@ -1,4 +1,5 @@
-import { InputFieldProps } from './props';
+import { Message } from "./models";
+
 // using in UserContext.tsx
 export interface WithChildrenProps {
     children: React.ReactNode;
@@ -27,6 +28,9 @@ export interface InputFieldProps {
   rep?: React.RefObject<HTMLInputElement>;
 }
 
-export type InputFieldMemoTypes = {
-  readonly InputFieldProps;
+//MessageSpan Props
+
+export interface MessageSpanProps {
+  message: Message;
+  mySessionId: string;
 }

@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../style/home.css";
-import { UserInfoContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { socket } from "../util/socketHandler";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const { userInfo } = useContext(UserInfoContext);
-  const [isMatching, setIsMatching] = useState(false);
-  const [btnStartMatching, setBtnStartMatching] = useState("시작하기");
-  const [matchingPlayerCount, setMatchingPlayerCount] = useState(0);
+  const { user } = useContext(AuthContext);
+  const [isMatching, setIsMatching] = useState<boolean>(false);
+  const [btnStartMatching, setBtnStartMatching] = useState<string>("시작하기");
+  const [matchingPlayerCount, setMatchingPlayerCount] = useState<number>(0);
   const navigate = useNavigate();
 
   const handleMatchingStart = () => {
     //check user login
-    if (userInfo === null) {
+    if (user === null) {
       alert("로그인 후 이용해주세요.");
       return;
     }
@@ -25,11 +25,9 @@ export default function Home() {
     if (isMatching) {
       const isCancel = window.confirm(
         "매칭을 취소하시겠습니까?",
-        "취소",
-        "계속 매칭"
       );
       if (isCancel) {
-        socket.emit("match-cancel", userInfo);
+        socket.emit("match-cancel", user);
         setIsMatching(false);
         return;
       }
@@ -46,7 +44,7 @@ export default function Home() {
       setBtnStartMatching("시작하기");
       return;
     }
-    socket.emit("match-start", userInfo);
+    socket.emit("match-start", user);
     let dot = ".";
 
     const interval = setInterval(() => {
@@ -67,7 +65,7 @@ export default function Home() {
   }, [isMatching]);
 
   useEffect(() => {
-    if (userInfo === null) {
+    if (user === null) {
       setIsMatching(false);
     }
 
@@ -88,7 +86,7 @@ export default function Home() {
       socket.off("match-fail");
       socket.off("match-success");
     };
-  }, [socket, userInfo]);
+  }, [socket, user]);
 
   return (
     <>

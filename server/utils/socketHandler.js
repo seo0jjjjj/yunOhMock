@@ -18,8 +18,7 @@ export function addMessageHandler(socket, clients, io) {
       message.sessionId = id;
     }
 
-    // 오후 NN:NN:NN => 오후 NN:NN
-    message.time = new Date().toLocaleTimeString().slice(0, -3);
+    message.time = new Date()
 
     console.log(`  📤  message arrived => ${JSON.stringify(message, null, 2)}`);
 

@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import "./nav.css";
 import React, { useContext } from 'react';
-import { UserInfoContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { logout } from "../../util/axiosService";
 
 export default function Nav() {
-  const {dispatch, isLoggedIn} = useContext(UserInfoContext);
+  const {dispatch, isLoggedIn} = useContext(AuthContext);
 
   const handleLogout = () => {
     logout({

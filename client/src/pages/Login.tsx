@@ -3,11 +3,11 @@ import AsyncButton from "../components/asyncButton/AsyncButton";
 import InputField from "../components/inputField/InputField";
 import "../style/login.css";
 import { useContext, useEffect, useState } from "react";
-import { UserInfoContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { login } from "../util/axiosService";
 
 function Login() {
-  const { dispatch } = useContext(UserInfoContext);
+  const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");

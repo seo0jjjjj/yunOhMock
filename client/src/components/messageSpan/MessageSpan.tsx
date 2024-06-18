@@ -1,17 +1,19 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./messageSpan.css";
-import { UserInfoContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
+import { MessageSpanProps } from "../../types";
+import { formatTimeToAMPM } from "../../util/util";
 
-function MessageSpan({ message, mySessionId }) {
+function MessageSpan({ message, mySessionId} : MessageSpanProps):JSX.Element {
   const { sessionId, sender } = message;
-  const { userInfo } = useContext(UserInfoContext);
+  const { user } = useContext(AuthContext);
   const [isMine, setIsMine] = useState(false);
 
   useEffect(() => {
-    if (userInfo) {
-      setIsMine(userInfo._id === message?.sender?._id);
+    if (user) {
+      setIsMine(user._id === message?.sender?._id);
       console.log(
-        "cause1 :" + userInfo._id + "===" + message?.sender?._id,
+        "cause1 :" + user._id + "===" + message?.sender?._id,
         isMine
       );
     }
@@ -20,7 +22,7 @@ function MessageSpan({ message, mySessionId }) {
       setIsMine(mySessionId === sessionId);
       console.log("cause2 :" + mySessionId + "===" + sessionId, isMine);
     }
-  }, [userInfo]);
+  }, [user]);
 
   console.log(JSON.stringify(message.sender));
 
@@ -40,7 +42,7 @@ function MessageSpan({ message, mySessionId }) {
         </span>
         <span className="message-detail">{message.content}</span>
       </div>
-      <span className="message-time">{message.time}</span>
+      <span className="message-time">{typeof message.time}</span>
     </div>
   );
 }

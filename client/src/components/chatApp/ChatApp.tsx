@@ -3,7 +3,6 @@ import "./chatApp.css";
 import { socket } from "../../util/socketHandler";
 import AsyncButton from "../asyncButton/AsyncButton";
 import MessageSpan from "../messageSpan/MessageSpan";
-import 'boxicons'
 import { AuthContext } from "../../context/AuthContext";
 import { AuthContextTypes, Message } from "../../types";
 
@@ -18,7 +17,7 @@ export const ChatApp : React.FC = () => {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const ballonRef = useRef<HTMLDivElement>(null);
 
-  const [sessionId, setSessionId] = useState();
+  const [sessionId, setSessionId] = useState<string>("");
 
 
   useEffect((): void=> {
@@ -136,7 +135,7 @@ export const ChatApp : React.FC = () => {
           <div className="chat-content">
             <span className="joined-message"></span>
 
-            {messages.map((message, index) => (
+            {messages.map((message : Message, index :number) => (
               <MessageSpan key={index} message={message} mySessionId={sessionId} />
             ))}
             <div ref={messageEndRef}> </div>

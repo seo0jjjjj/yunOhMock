@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import {AuthAction, AuthContextTypes, AuthState, OnlyChildrenProps} from '../types'
+import {AuthAction, AuthContextTypes, AuthState} from '../types'
 
 const INITIAL_STATE: AuthContextTypes = {
     user: JSON.parse(sessionStorage.getItem("userInfo")!) || null,

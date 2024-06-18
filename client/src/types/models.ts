@@ -3,6 +3,8 @@ export interface User {
     username: string;
     record: number[];    
     isAdmin: boolean;
+    imgURL: string;
+    nickname: string;
     createdAt: Date;
     updatedAt: Date;
 }
