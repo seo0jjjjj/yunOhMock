@@ -55,3 +55,8 @@
     border: 1px solid black;
     z-index: 1;
 }
+
+.placed {
+    background-color: #dbdbdb;
+    border-radius: 50%;
+}

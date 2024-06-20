@@ -4,11 +4,22 @@ import "./gameBoard.css"
 const boardSize = 15;
 
 export const GameBoard: React.FC = () => {
-  const [currentDot, setCurrentDot] = useState<string>("");
+  const [currentDot, setCurrentDot] = useState<string[]>([]);
 
   const handlePlaceDot : MouseEventHandler<HTMLDivElement> = (e) => {
-    setCurrentDot(e.currentTarget.id);
+    setCurrentDot(prev => [...prev, (e.target as HTMLDivElement).id]);
   }
+
+  useEffect(() => {
+    currentDot.forEach(dotId => {
+      const dot = document.getElementById(dotId);
+      if (dot) {
+        dot.classList.add("placed");
+      }
+    });
+
+  }, [currentDot])
+
   return (
     <div className="board-backgorund">
       <div className="board">
