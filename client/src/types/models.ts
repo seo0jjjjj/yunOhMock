@@ -13,4 +13,5 @@ export interface Message {
   sender: User | null; // UserId
   content: string; // message content
   time: Date;
+  sessionId: string | null;
 }
