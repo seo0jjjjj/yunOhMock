@@ -1,4 +1,4 @@
-import User from "../models/mysqlModels/User.js";
+import User from "../models/mongoModels/User.js";
 import bcrypt from "bcryptjs"
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";

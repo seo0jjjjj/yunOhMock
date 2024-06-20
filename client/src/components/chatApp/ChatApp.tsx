@@ -66,6 +66,10 @@ export const ChatApp : React.FC = () => {
   };
 
   const startSocketConnection = useCallback(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("⚠️ development mode에서는 socket 연결을 시도하지 않습니다.");
+      return;
+    }
     console.log("🔁 try to connect socket");
     // connect Socket and request Chat Server\
     const interval = setInterval(() => {

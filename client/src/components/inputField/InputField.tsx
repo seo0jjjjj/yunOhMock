@@ -14,7 +14,7 @@ const InputField: FC<InputFieldProps> = memo(
     };
 
     const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-      setInputState(e.target.value);
+      setInputState(e.currentTarget.id);
     };
 
     return (

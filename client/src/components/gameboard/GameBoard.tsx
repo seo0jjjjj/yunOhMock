@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import "./gameBoard.css"
 
 const boardSize = 15;
@@ -6,10 +6,9 @@ const boardSize = 15;
 export const GameBoard: React.FC = () => {
   const [currentDot, setCurrentDot] = useState<string>("");
 
-  const handlePlaceDot = (e: React.MouseEvent<HTMLElement>) => {
-    setCurrentDot((e.target as HTMLElement).id);
+  const handlePlaceDot : MouseEventHandler<HTMLDivElement> = (e) => {
+    setCurrentDot(e.currentTarget.id);
   }
-
   return (
     <div className="board-backgorund">
       <div className="board">

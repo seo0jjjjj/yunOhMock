@@ -35,7 +35,7 @@ class Config{
 
     Config.#isInitalized = nonExistentKeyList.length === 0;
 
-    console.log(Config.#isInitalized ? '✅ 모든 키가 존재합니다.' : `❌ ${nonExistentKeyList} .env에 해당 키가 존재하지 않습니다.`);
+    console.log(Config.#isInitalized ? '✅ 모든 키가 존재합니다.' : `❌.env에 해당 키가 존재하지 않습니다. \n \t  [${nonExistentKeyList}]`);
 
     return Config.#isInitalized;
   }

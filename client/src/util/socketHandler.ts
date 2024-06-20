@@ -1,8 +1,8 @@
 import { io } from 'socket.io-client';
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "__NO_.ENV_ENVIORMENT__";
 
 export const socket = io(SERVER_URL, {
-  autoConnect: true,
+  autoConnect: false,
   withCredentials: true,
 });
